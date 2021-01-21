@@ -1,0 +1,19 @@
+FROM fedora:latest
+ARG NORD_VPN_CONFIG_ZIP=https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
+ENV OPENVPN_CONFIG_DIR=/etc/openvpn/client
+
+RUN dnf upgrade -y && \
+    dnf install -y unzip findutils
+
+ADD nordvpn.sh /usr/local/bin/nordvpn.sh
+RUN /usr/local/bin/nordvpn.sh
+
+FROM fedora:latest
+ENV OPENVPN_CONFIG_DIR=/etc/openvpn/client
+ENV OPENVPN_PROFILE=ca1100.nordvpn.com.udp
+
+RUN dnf install -y openvpn
+COPY --from=0 /tmp/ovpn ${OPENVPN_CONFIG_DIR}
+ADD entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
