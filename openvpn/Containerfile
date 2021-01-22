@@ -14,6 +14,10 @@ ENV OPENVPN_PROFILE=ca1100.nordvpn.com.udp
 
 RUN dnf install -y openvpn
 COPY --from=0 /tmp/ovpn ${OPENVPN_CONFIG_DIR}
+
 ADD entrypoint.sh /entrypoint.sh
+ADD health-check /usr/local/bin/health-check
+
+HEALTHCHECK CMD /health.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

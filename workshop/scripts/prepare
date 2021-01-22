@@ -1,0 +1,5 @@
+#!/bin/bash
+
+WORKSHOP_SHELL="${WORKSHOP_SHELL:-/usr/bin/zsh}"
+
+dnf install -y zsh tmux vim ripgrep findutils openssh-clients nc nmap binutils systemd

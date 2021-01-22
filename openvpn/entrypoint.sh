@@ -5,4 +5,5 @@ ${OPENVPN_USER}
 ${OPENVPN_PASS}
 EOF
 
-openvpn --config "${OPENVPN_CONFIG_DIR}/${OPENVPN_PROFILE}.ovpn" --auth-user-pass "${OPENVPN_PASSWD_FILE}"
+exec openvpn --config "${OPENVPN_CONFIG_DIR}/${OPENVPN_PROFILE}.ovpn" \
+             --auth-user-pass "${OPENVPN_PASSWD_FILE}"
