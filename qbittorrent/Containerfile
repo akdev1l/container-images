@@ -1,0 +1,17 @@
+FROM fedora:latest
+ARG NORD_VPN_REPO_PKG=https://repo.nordvpn.com/yum/nordvpn/centos/noarch/Packages/n/nordvpn-release-1.0.0-1.noarch.rpm
+ARG TORRENT_USER=akdev
+ARG TORRENT_DIR=/var/lib/torrent
+ARG NORD_VPN_CONFIG_ZIP=https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip
+
+RUN dnf upgrade -y && dnf install -y qbittorrent-nox unzip ${NORD_VPN_REPO_PKG} && \
+    dnf install -y nordvpn
+
+RUN useradd -m -d ${TORRENT_DIR} ${TORRENT_USER}
+
+RUN systemctl enable qbittorrent-nox@${TORRENT_USER} nordvpnd
+
+ADD pre-exec /usr/local/bin/pre-exec
+ADD post-exec /usr/local/bin/post-exec
+
+ENTRYPOINT ["/sbin/init"]
