@@ -1,0 +1,19 @@
+FROM fedora:latest
+ARG OVPN_CONFIG_DIR=/etc/openvpn/clients
+
+RUN /usr/local/bin/pre-build
+
+FROM fedora:latest
+
+RUN /usr/local/bin/prepare
+
+COPY --from=0 /var/output/*.ovpn ${OVPN_CONFIG_DIR}
+COPY scripts/* /usr/local/bin
+COPY systemd/container-launch.service /usr/lib/systemd/system
+COPY systemd/override.conf /etc/systemd/system/console-getty.service.d/override.conf
+
+RUN /usr/local/bin/prepare && systemctl enable container-launch
+
+HEALTHCHECK CMD /usr/local/bin/health-check
+
+ENTRYPOINT ["/sbin/init"]

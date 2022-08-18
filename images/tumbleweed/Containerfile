@@ -1,0 +1,8 @@
+FROM tumbleweed
+
+RUN zypper --non-interactive install -t pattern kde kde_plasma 
+
+RUN systemctl mask \                                                     systemd-load-modules \                                                NetworkManager \                                                      NetworkManager-wait-online \                                          bluetooth \                                                           rtkit-daemon
+
+ENTRYPOINT "/sbin/init"
+

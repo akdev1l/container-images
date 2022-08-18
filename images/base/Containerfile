@@ -1,0 +1,15 @@
+FROM fedora:36
+ARG AKDEV_CONTAINER_HOME=/var/home/akdev
+
+RUN useradd --home-dir ${AKDEV_CONTAINER_HOME} \
+        --groups wheel \
+        --create-home akdev && \
+    echo '%wheel        ALL=(ALL)       NOPASSWD: ALL' > /etc/sudoers.d/akdev-nopasswd && \
+    chmod 0440 /etc/sudoers.d/akdev-nopasswd && \
+    dnf install -y \
+        "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+        "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm" && \
+    dnf install -y /usr/bin/nvidia-smi xorg-x11-drv-nvidia
+
+WORKDIR ${AKDEV_CONTAINER_HOME}
+USER akdev

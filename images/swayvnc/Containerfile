@@ -1,0 +1,17 @@
+FROM fedora:35
+
+RUN dnf install -y systemd /usr/bin/passwd sway wayvnc && \
+    useradd -m vncuser && \
+    echo "password" | passwd --stdin root
+
+ENV WLR_BACKENDS=headless
+ENV WLR_LIBINPUT_NO_DEVICES=1
+ENV XDG_RUNTIME_DIR=/tmp
+
+EXPOSE 5910
+
+USER vncuser
+
+COPY config /sway.config
+
+ENTRYPOINT ["sway", "-c" , "sway.config", "--my-next-gpu-wont-be-nvidia"]

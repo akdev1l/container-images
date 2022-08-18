@@ -1,0 +1,6 @@
+FROM akdev1l/base:latest
+
+RUN sudo dnf install -y xsane
+
+ENTRYPOINT "/usr/bin/xsane"
+
