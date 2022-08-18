@@ -1,0 +1,33 @@
+#!/bin/bash
+
+sudo dnf install -y \
+	@kde-desktop \
+        podman \
+        passwd \
+        maim \
+        yakuake \
+        virt-manager \
+        xclip \
+        ripgrep \
+        vim \
+        rclone
+
+sudo ln -s /usr/share/zoneinfo/America/Toronto /etc/localtime
+
+flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+flatpak --user install -y \
+        com.valvesoftware.Steam \
+        org.keepassxc.KeePassXC \
+        org.mozilla.Firefox/x86_64/stable \
+        com.valvesoftware.Steam \
+        org.signal.Signal \
+        com.spotify.Client
+        
+
+#COPY --chown=akdev:akdev ./files/yakuakerc /home/akdev/.config/yakuakerc
+#COPY --chown=akdev:akdev ./files/kglobalshortcutsrc /home/akdev/.config/kglobalshortcutsrc
+#COPY --chown=akdev:akdev ./files/khotkeysrc /home/akdev/.config/khotkeysrc
+#COPY --chown=akdev:akdev ./files/autostart /home/akdev/.config/autostart
+#COPY --chown=akdev:akdev ./files/rclone.conf /home/akdev/.config/rclone/rclone.conf
+#COPY --chown=akdev:akdev ./files/wallpapers /home/akdev/pictures/wallpapers
+#COPY --chown=akdev:akdev ./files/plasma-org.kde.plasma.desktop-appletsrc ./config/plasma-org.kde.plasma.desktop-appletsrc

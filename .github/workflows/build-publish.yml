@@ -1,0 +1,25 @@
+name: build customized container images
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+  CONTAINER_REGISTRY: registry.hub.docker.com/${{ github.repository_owner }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
+        registry: ${{ env.CONTAINER_REGISTRY }}
+
+    - name: publish all container images
+      run: ./build-all.sh

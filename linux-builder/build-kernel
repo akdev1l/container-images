@@ -1,8 +1,0 @@
-#!/bin/bash
-
-KERNEL_VERSION="${KERNEL_VERSION:-"next-$(date --date="yesterday" +'%Y%m%d')"}"
-
-git fetch linux-next "${KERNEL_VERSION}"
-git checkout ${KERNEL_VERSION}
-
-make

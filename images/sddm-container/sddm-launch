@@ -1,0 +1,16 @@
+#!/bin/bash
+
+podman run --rm -it \
+    --gpus all \
+    --privileged \
+    --userns=keep-id \
+    --pids-limit=-1 \
+    --net=host \
+    -e AKDEV_PASSWORD=test1234 \
+    -v /run/libvirt:/mnt/libvirt \
+    -v /run/podman/podman.sock:/mnt/podman/podman.sock \
+    -v /run/udev/data:/run/udev/data \
+    -v /run/podman:/run/podman \
+    akdev1l/kde-desktop:latest
+
+#    -v /var/lib/workshop/current:/var/home/akdev/workshop \

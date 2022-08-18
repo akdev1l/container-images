@@ -1,0 +1,13 @@
+FROM fedora:35
+
+ARG ETHMINER_RELEASE_URL="https://github.com/ethereum-mining/ethminer/releases/download/v0.18.0/ethminer-0.18.0-cuda-9-linux-x86_64.tar.gz"
+
+COPY ./util/dev-env.sh /tmp/dev-env.sh
+
+RUN  /tmp/dev-env.sh
+
+FROM nvidia/cuda:11.0-base
+
+COPY --from=0 /opt /opt
+
+ENTRYPOINT ["/opt/bin/ethminer"]
