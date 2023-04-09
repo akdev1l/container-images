@@ -1,7 +1,4 @@
 #!/bin/bash
 
 exec podman run --rm -it \
-    --security-opt label=disable \
-    -v "$PWD:$PWD" \
-    -w "$PWD" \
-    watch_gha_runs:latest "$@"
+    ghcr.io/akdev1l/container-images/watch_gha_runs:latest "$@"
