@@ -3,4 +3,5 @@
 exec podman run --rm -it \
     --security-opt label=disable \
     --privileged \
+    --pid=host \
     ghcr.io/akdev1l/container-images/iotop:latest "$@"
