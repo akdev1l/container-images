@@ -1,0 +1,6 @@
+FROM fedora:latest
+
+RUN dnf install -y \
+    ripgrep
+
+ENTRYPOINT ["rg"]

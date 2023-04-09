@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if ! [ -d "$HOME/.aws" ]; then
+    mkdir -v "$HOME/.aws"
+fi
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    -e AWS_DEFAULT_PROFILE \
+    -e AWS_DEFAULT_REGION \
+    -v "$HOME/.aws:/root/.aws" \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    amazon/aws-cli:latest "$@"
