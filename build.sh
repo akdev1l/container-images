@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xeu
+
 main() {
 
     CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-ghcr.io/akdev1l/container-images}"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    -e GH_TOKEN \
+    -v "$HOME:/root" \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    ghcli:latest "$@"
