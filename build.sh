@@ -2,7 +2,7 @@
 
 main() {
 
-    CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-docker.io/akdev1l}"
+    CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-ghcr.io/akdev1l/container-images}"
 
     image="${1}"
     (

@@ -1,0 +1,6 @@
+FROM fedora:latest
+
+RUN dnf install -y pipx git && \
+    pipx install git+https://github.com/nedbat/watchgha
+
+ENTRYPOINT ["/root/.local/bin/watch_gha_runs"]

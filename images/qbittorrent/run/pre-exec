@@ -1,3 +1,0 @@
-#!/bin/bash
-
-nordvpn login -u "${NORD_USER}" -p "${NORD_PASSWORD}"
