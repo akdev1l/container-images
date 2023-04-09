@@ -5,4 +5,5 @@ exec podman run --rm -it \
     -p 4000:4000 \
     -v "$PWD:$PWD" \
     -w "$PWD" \
+    --entrypoint gem \
     ghcr.io/akdev1l/container-images/jekyll:latest "$@"
