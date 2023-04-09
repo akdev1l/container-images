@@ -13,6 +13,7 @@ jobs:
         image:
           - awscdk
           - ghcli
+          - pandoc
           - watch_gha_runs
     permissions:
       contents: read
