@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: '30 4 * * 6'
   push:
+    paths-ignore: '**.md'
     branches: [ "master" ]
 
 jobs:
@@ -13,6 +14,7 @@ jobs:
         image:
           - awscdk
           - ghcli
+          - iotop
           - jekyll
           - pandoc
           - watch_gha_runs
