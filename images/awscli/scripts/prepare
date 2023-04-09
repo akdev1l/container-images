@@ -1,4 +1,0 @@
-#!/bin/bash
-
-dnf install -y nodejs
-npm install -g aws-cdk

@@ -6,4 +6,4 @@ exec podman run --rm -it \
     -v "$HOME:/root" \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    ghcli:latest "$@"
+    ghcr.io/akdev1l/container-images/ghcli:latest "$@"

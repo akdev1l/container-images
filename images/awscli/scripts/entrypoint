@@ -1,5 +1,0 @@
-#!/bin/bash
-
-npm -g upgrade aws-cdk
-
-exec cdk "$@"
