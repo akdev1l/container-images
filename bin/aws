@@ -6,6 +6,7 @@ fi
 
 exec podman run --rm -it \
     --security-opt label=disable \
+    --pid=host \
     -e AWS_DEFAULT_PROFILE \
     -e AWS_DEFAULT_REGION \
     -v "$HOME/.aws:/root/.aws" \
