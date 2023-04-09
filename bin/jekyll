@@ -1,0 +1,7 @@
+#!/bin/bash
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    ghcr.io/akdev1/container-images/jekyll:latest "$@"
