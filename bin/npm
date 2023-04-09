@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if ! [ -f "$HOME/.npmrc" ]; then
+    touch "$HOME/.npmrc"
+fi
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    -v "${HOME}/.npmrc:/root/.npmrc" \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    --entrypoint npm \
+    node:latest "$@"
