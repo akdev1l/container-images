@@ -1,5 +1,9 @@
 FROM fedora:latest
 
-RUN dnf install -y rubygem-jekyll
+RUN dnf install -y \
+    ruby-devel \
+    rubygem-jekyll \
+    rubygem-racc
+    
 
 ENTRYPOINT ["jekyll"]
