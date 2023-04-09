@@ -19,3 +19,10 @@ images/
 ├── ghcli
 └── watch_gha_runs
 ```
+
+## How to use?
+
+1. Make sure you have a recent version of `podman`
+1. Get the script for the tool you want from the `bin/` directory
+2. Put it in your path
+3. Hope it works! - there's probably some container-related edge cases but I have tried to make the wrappers transparent
