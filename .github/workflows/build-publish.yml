@@ -13,6 +13,7 @@ jobs:
         image:
           - awscdk
           - ghcli
+          - jekyll
           - pandoc
           - watch_gha_runs
     permissions:
