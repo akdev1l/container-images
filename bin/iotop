@@ -1,0 +1,6 @@
+#!/bin/bash
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    --privileged \
+    ghcr.io/akdev1l/container-images/iotop:latest "$@"
