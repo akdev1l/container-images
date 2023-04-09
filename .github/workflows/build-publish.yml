@@ -12,6 +12,7 @@ jobs:
       matrix:
         image:
           - awscdk
+          - devenv
           - ghcli
           - watch_gha_runs
     permissions:
