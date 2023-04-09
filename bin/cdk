@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    -e AWS_DEFAULT_PROFILE \
+    -e AWS_DEFAULT_REGION \
+    -v "$HOME:/root" \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    ghcr.io/akdev1l/container-images/awscdk:latest "$@"
