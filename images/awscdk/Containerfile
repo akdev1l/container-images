@@ -1,7 +1,4 @@
 FROM fedora:latest
 
-COPY scripts/* /usr/local/bin
-
-RUN /usr/local/bin/prepare
-
-ENTRYPOINT ["/usr/local/bin/entrypoint"]
+RUN dnf install -y nodejs git && \
+    npm install -g aws-cdk
