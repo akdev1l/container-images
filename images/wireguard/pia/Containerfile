@@ -1,0 +1,14 @@
+ARG PIA_INSTALLER_URL
+FROM akdev1l/base:latest
+ARG PIA_INSTALLER_URL="https://installers.privateinternetaccess.com/download/pia-linux-3.3.1-06924.run"
+ 
+RUN curl "${PIA_INSTALLER_URL}" -L > /tmp/pia-installer.run && \
+    chmod +x /tmp/pia-installer.run
+
+RUN dnf install -y procps-ng
+
+RUN useradd -G wheel akdev && echo '%wheel ALL=(ALL)  NOPASSWD:ALL' > /etc/sudoers.d/akdev
+USER akdev
+
+RUN mkdir /tmp/akdev
+RUN /tmp/pia-installer.run --target /tmp/akdev -- --skip-service

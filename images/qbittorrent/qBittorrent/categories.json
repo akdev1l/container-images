@@ -1,0 +1,11 @@
+{
+    "Movies": {
+        "save_path": "/mnt/movies"
+    },
+    "Music": {
+        "save_path": "/mnt/music"
+    },
+    "TV": {
+        "save_path": "/mnt/tv"
+    }
+}
