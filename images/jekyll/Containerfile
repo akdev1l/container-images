@@ -4,6 +4,7 @@ RUN dnf install -y \
         @development-tools \
         'gcc-c++' \
         'libstdc++-devel' \
+        git \
         make \
         rubygems \
         ruby-devel \

@@ -1,0 +1,14 @@
+FROM fedora:latest
+
+RUN dnf install -y  \
+    ansible \
+    curl \
+    isomd5sum \
+    jq \
+    parted \
+    tree \
+    xorriso && \
+    curl -L 'https://raw.githubusercontent.com/ublue-os/isogenerator/main/isopatch.sh' -o /usr/local/bin/isopatch.sh && \
+    chmod +x /usr/local/bin/isopatch.sh
+
+ENTRYPOINT ["/usr/local/bin/isopatch.sh"]
