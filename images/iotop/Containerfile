@@ -4,3 +4,4 @@ RUN dnf install -y \
     iotop
 
 ENTRYPOINT ["iotop"]
+LABEL RUNCMD /usr/bin/podman run --rm -it --security-opt label=disable --pid=host --privileged \${IMAGE}

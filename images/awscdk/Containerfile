@@ -4,3 +4,15 @@ RUN dnf install -y nodejs git && \
     npm install -g aws-cdk
 
 ENTRYPOINT ["cdk"]
+
+LABEL RUNCMD podman run --rm -it \
+    --userns keep-id \
+    --security-opt label=disable \
+    --pid=host \
+    -e HOME \
+    -e AWS_DEFAULT_PROFILE \
+    -e AWS_DEFAULT_REGION \
+    -v /home:/home \
+    -v \$PWD:\$PWD \
+    -w \$PWD \
+    \${IMAGE} "$@"

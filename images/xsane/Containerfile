@@ -1,6 +1,5 @@
-FROM akdev1l/base:latest
+FROM fedora:latest
 
 RUN sudo dnf install -y xsane
 
 ENTRYPOINT "/usr/bin/xsane"
-

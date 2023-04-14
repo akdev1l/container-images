@@ -1,0 +1,9 @@
+
+FROM fedora:latest
+ARG INTELLIJ_RELEASE_URL="https://download.jetbrains.com/idea/ideaIC-2023.1.tar.gz"
+
+RUN curl -L ${INTELLIJ_RELEASE_URL} -o /tmp/intellij.tar.gz && \
+    tar xvf /tmp/intellij.tar.gz -C /opt && \
+    mv /opt/idea* /opt/idea
+
+ENTRYPOINT ["/opt/idea/bin/idea.sh"]

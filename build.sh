@@ -4,7 +4,7 @@ set -xeu
 
 main() {
 
-    CONTAINER_REGISTRY="${CONTAINER_REGISTRY:-ghcr.io/akdev1l/container-images}"
+    CONTAINER_REGISTRY="ghcr.io/akdev1l/container-images"
 
     image="${1}"
     (
@@ -15,8 +15,8 @@ main() {
          "${image}"
     )
 
-    podman push "akdev1l/${image}:latest" "${CONTAINER_REGISTRY}/${image}:latest"
-    podman push "akdev1l/${image}:$(date +%Y%m%d)" "${CONTAINER_REGISTRY}/${image}:$(date +%Y%m%d)"
+    #podman push "akdev1l/${image}:latest" "${CONTAINER_REGISTRY}/${image}:latest"
+    #podman push "akdev1l/${image}:$(date +%Y%m%d)" "${CONTAINER_REGISTRY}/${image}:$(date +%Y%m%d)"
 }
 
 main "$@"
