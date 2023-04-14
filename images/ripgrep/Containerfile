@@ -1,5 +1,5 @@
 FROM fedora:latest
-LABEL RUN="podman run \
+LABEL xyz.akdev.run="podman run \
     --rm \
     --security-opt label=disable \
     -it \
