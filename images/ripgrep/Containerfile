@@ -1,14 +1,13 @@
 FROM fedora:latest
-
-RUN dnf install -y \
-    ripgrep
-
-ENTRYPOINT ["rg"]
-
-LABEL runcmd podman run \
+LABEL RUN="podman run \
     --rm \
     --security-opt label=disable \
     -it \
     -v \$PWD:\$PWD \
     -w \$PWD \
-    \$IMAGE "$@"
+    \$IMAGE '$@'"
+
+RUN dnf install -y \
+    ripgrep
+
+ENTRYPOINT ["rg"]
