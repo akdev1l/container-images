@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/akdev1l/container-images/compare/v1.0.0...v1.1.0) (2023-04-14)
+
+
+### Features
+
+* container image dump, let's try to use runlabel ([0d2bf3c](https://github.com/akdev1l/container-images/commit/0d2bf3c314ce5f1e2700b2e2ec29768a5f28204a))
+
+
+### Bug Fixes
+
+* try another time ([3893d5b](https://github.com/akdev1l/container-images/commit/3893d5b9a163c07b4ad0a0d693bc28ec867ceb86))
+* try to set label better :( ([081b4bf](https://github.com/akdev1l/container-images/commit/081b4bf9a40f680c87e2adca8d2750de15288755))
+
 ## 1.0.0 (2023-04-09)
 
 
