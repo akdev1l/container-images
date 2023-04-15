@@ -98,9 +98,8 @@ jobs:
       shell: bash
       run: |
         SHA_SHORT="$(git rev-parse --short HEAD)"
-        COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}")
         DATE_TAG="$(date "+%Y%m%d")"
-        echo "alias_tags=latest ${{ matrix.major_version }} ${SHA_SHORT} ${COMMIT_TAG} ${DATE_TAG}" >> $GITHUB_OUTPUT
+        echo "alias_tags=latest ${SHA_SHORT} ${COMMIT_TAG} ${DATE_TAG}" >> $GITHUB_OUTPUT
 
     # Build metadata
     - name: Image Metadata
