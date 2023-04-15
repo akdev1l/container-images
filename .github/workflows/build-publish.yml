@@ -122,8 +122,7 @@ jobs:
           ./images/${{ matrix.image }}/Containerfile
         context: images/${{ matrix.image }}
         image: ${{ matrix.image }}
-        tags: |
-          ${{ steps.generate-tags.outputs.alias_tags }}
+        tags: latest
         labels: ${{ steps.meta.outputs.labels }}
         oci: true
 
