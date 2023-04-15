@@ -1,7 +1,6 @@
 FROM ghcr.io/akdev1l/container-images/base:latest
 
-RUN dnf5 install -y 'dnf-command(config-manager)' && \
-    dnf5 config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && \
+RUN curl -Lo /etc/yum.repos.d/gh-cli.repo https://cli.github.com/packages/rpm/gh-cli.repo && \
     dnf5 install -y gh
 
 ENTRYPOINT ["gh"]
