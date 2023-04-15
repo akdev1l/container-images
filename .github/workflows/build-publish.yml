@@ -26,18 +26,6 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io/${{ github.repository }}
 
-    # Build metadata
-    - name: Image Metadata
-      uses: docker/metadata-action@v4
-      id: meta
-      with:
-        images: ${{ matrix.image_name }}
-        labels: |
-          org.opencontainers.image.title=${{ matrix.image }}
-          org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
-          org.opencontainers.image.description=${{ matrix.image }} package via OCI by akdev
-          io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
-
     # Build image using Buildah action
     - name: Build Image
       id: build_image
@@ -51,6 +39,18 @@ jobs:
           ${{ steps.generate-tags.outputs.alias_tags }}
         labels: ${{ steps.meta.outputs.labels }}
         oci: true
+
+    # Build metadata
+    - name: Image Metadata
+      uses: docker/metadata-action@v4
+      id: meta
+      with:
+        images: ${{ matrix.image }}
+        labels: |
+          org.opencontainers.image.title=${{ matrix.image }}
+          org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
+          org.opencontainers.image.description=${{ matrix.image }} package via OCI by akdev
+          io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
 
     # Push the image to GHCR (Image Registry)
     - name: Push To GHCR
@@ -107,7 +107,7 @@ jobs:
       uses: docker/metadata-action@v4
       id: meta
       with:
-        images: ${{ matrix.image_name }}
+        images: ${{ matrix.image }}
         labels: |
           org.opencontainers.image.title=${{ matrix.image }}
           org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
