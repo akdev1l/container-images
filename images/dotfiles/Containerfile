@@ -1,0 +1,19 @@
+FROM fedora-minimal:38
+
+RUN dnf5 install -y \
+    ansible \
+    git \
+    openssh-clients \
+    tmux \
+    vim-enhanced \
+    zsh \
+    /usr/bin/chsh && \
+    chsh -s /usr/bin/zsh && \
+    git clone https://github.com/jimeh/tmux-themepack.git /root/.config/tmux-themepack && \
+    rm -rf /tmp/* /var/cache/* /var/log/* && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
+
+COPY ./files/vim/vimrc /root/.vimrc
+COPY ./files/tmux/tmux.conf /root/.tmux.conf
+COPY ./files/zsh/zshrc /root/.zshrc
+COPY ./files/git/gitconfig /root/.gitconfig

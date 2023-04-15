@@ -13,6 +13,7 @@ jobs:
       matrix:
         image:
           - awscdk
+          - dotfiles
           - ghcli
           - iotop
           - jekyll

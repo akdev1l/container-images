@@ -1,4 +1,5 @@
 #!/bin/bash
 
 exec podman run --rm -it \
+    --pid=host \
     ghcr.io/akdev1l/container-images/watch_gha_runs:latest "$@"

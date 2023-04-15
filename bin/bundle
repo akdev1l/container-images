@@ -3,7 +3,7 @@
 exec podman run --rm -it \
     --security-opt label=disable \
     --pid=host \
-    -p 4000:4000 \
+    --net=host \
     -e PATH="${PATH}:$PWD/vendor/bundle/ruby/3.1.0/bin" \
     -v "$PWD:$PWD" \
     -w "$PWD" \
