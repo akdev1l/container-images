@@ -9,6 +9,10 @@ on:
 
 jobs:
   build-base:
+    strategy:
+      matrix:
+        image:
+          - base
     permissions:
       contents: read
       packages: write
@@ -22,8 +26,46 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io/${{ github.repository }}
 
-    - name: Build ${{ github.repository_owner }}/${{ github.event.repository.name }}/base
-      run: ./build.sh base
+    # Build image using Buildah action
+    - name: Build Image
+      id: build_image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        containerfiles: |
+          ./images/${{ matrix.image }}/Containerfile
+        context: images/${{ matrix.image }}
+        image: ${{ matrix.image }}
+        tags: |
+          ${{ steps.generate-tags.outputs.alias_tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        oci: true
+
+    # Build metadata
+    - name: Image Metadata
+      uses: docker/metadata-action@v4
+      id: meta
+      with:
+        images: ${{ matrix.image_name }}
+        labels: |
+          org.opencontainers.image.title=${{ matrix.image }}
+          org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
+          org.opencontainers.image.description=${{ matrix.image }} package via OCI by akdev
+          io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
+
+    # Push the image to GHCR (Image Registry)
+    - name: Push To GHCR
+      uses: redhat-actions/push-to-registry@v2
+      id: push
+      if: github.event_name != 'pull_request'
+      env:
+        REGISTRY_USER: ${{ github.actor }}
+        REGISTRY_PASSWORD: ${{ github.token }}
+      with:
+        image: ${{ steps.build_image.outputs.image }}
+        tags: ${{ steps.build_image.outputs.tags }}
+        registry: ${{ steps.registry_case.outputs.lowercase }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
 
   build-cli-tools:
     needs: build-base
@@ -51,5 +93,52 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io/${{ github.repository }}
 
-    - name: publish all container images
-      run: ./build.sh ${{ matrix.image }}
+    - name: generate tags
+      id: generate-tags
+      shell: bash
+      run: |
+        SHA_SHORT="$(git rev-parse --short HEAD)"
+        COMMIT_TAGS+=("pr-${{ github.event.number }}-${MAJOR_VERSION}")
+        DATE_TAG="$(date "+%Y%m%d")"
+        echo "alias_tags=latest ${{ matrix.major_version }} ${SHA_SHORT} ${COMMIT_TAG} ${DATE_TAG}" >> $GITHUB_OUTPUT
+
+    # Build image using Buildah action
+    - name: Build Image
+      id: build_image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        containerfiles: |
+          ./images/${{ matrix.image }}/Containerfile
+        context: images/${{ matrix.image }}
+        image: ${{ matrix.image }}
+        tags: |
+          ${{ steps.generate-tags.outputs.alias_tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        oci: true
+
+    # Build metadata
+    - name: Image Metadata
+      uses: docker/metadata-action@v4
+      id: meta
+      with:
+        images: ${{ matrix.image_name }}
+        labels: |
+          org.opencontainers.image.title=${{ matrix.image }}
+          org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
+          org.opencontainers.image.description=CLI Tool Packaged via OCI
+          io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
+
+    # Push the image to GHCR (Image Registry)
+    - name: Push To GHCR
+      uses: redhat-actions/push-to-registry@v2
+      id: push
+      if: github.event_name != 'pull_request'
+      env:
+        REGISTRY_USER: ${{ github.actor }}
+        REGISTRY_PASSWORD: ${{ github.token }}
+      with:
+        image: ${{ steps.build_image.outputs.image }}
+        tags: ${{ steps.build_image.outputs.tags }}
+        registry: ${{ steps.registry_case.outputs.lowercase }}
+        username: ${{ env.REGISTRY_USER }}
+        password: ${{ env.REGISTRY_PASSWORD }}
