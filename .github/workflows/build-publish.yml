@@ -8,7 +8,25 @@ on:
     branches: [ "master" ]
 
 jobs:
-  publish:
+  build-base:
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io/${{ github.repository }}
+
+    - name: Build ${{ github.repository_owner }}/${{ github.event.repository.name }}/base
+      run: ./build.sh base
+
+  build-cli-tools:
+    needs: build-base
     strategy:
       matrix:
         image:
