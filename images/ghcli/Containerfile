@@ -1,7 +1,7 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 
-RUN dnf install -y 'dnf-command(config-manager)' && \
-    dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && \
-    dnf install -y gh
+RUN dnf5 install -y 'dnf-command(config-manager)' && \
+    dnf5 config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && \
+    dnf5 install -y gh
 
 ENTRYPOINT ["gh"]

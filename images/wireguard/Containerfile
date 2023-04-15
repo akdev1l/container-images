@@ -1,1 +1,1 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest

@@ -1,6 +1,6 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 
-RUN dnf install -y nodejs git && \
+RUN dnf5 install -y nodejs git && \
     npm install -g aws-cdk
 
 ENTRYPOINT ["cdk"]

@@ -1,5 +1,5 @@
 
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 ARG INTELLIJ_RELEASE_URL="https://download.jetbrains.com/idea/ideaIC-2023.1.tar.gz"
 
 RUN curl -L ${INTELLIJ_RELEASE_URL} -o /tmp/intellij.tar.gz && \

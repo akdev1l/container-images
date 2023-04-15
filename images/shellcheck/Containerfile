@@ -1,5 +1,5 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 
-RUN dnf install -y ShellCheck
+RUN dnf5 install -y ShellCheck
 
 ENTRYPOINT ["shellcheck"]

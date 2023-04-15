@@ -1,5 +1,5 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 
-RUN dnf install -y pandoc
+RUN dnf5 install -y pandoc
 
 ENTRYPOINT ["pandoc"]

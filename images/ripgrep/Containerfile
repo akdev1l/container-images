@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 LABEL xyz.akdev.run="podman run \
     --rm \
     --security-opt label=disable \
@@ -7,7 +7,7 @@ LABEL xyz.akdev.run="podman run \
     -w \$PWD \
     \$IMAGE '$@'"
 
-RUN dnf install -y \
+RUN dnf5 install -y \
     ripgrep
 
 ENTRYPOINT ["rg"]
