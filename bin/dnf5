@@ -12,4 +12,4 @@ exec podman run --rm -it \
     -v "$PWD:$PWD" \
     -w "$PWD" \
     --entrypoint dnf5 \
-    "fedora-minimal:$(rpm -E %fedora)" "$@"
+    "fedora-minimal:38" "$@"
