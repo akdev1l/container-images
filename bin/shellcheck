@@ -2,6 +2,7 @@
 
 exec podman run --rm -it \
     --security-opt label=disable \
+    --pid=host \
     -v "$PWD:$PWD" \
     -w "$PWD" \
     ghcr.io/akdev1/container-images/shellcheck:latest "$@"

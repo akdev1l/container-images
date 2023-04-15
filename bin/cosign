@@ -5,4 +5,4 @@ exec podman run --rm -it \
     --pid=host \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    ghcr.io/akdev1l/container-images/pandoc:latest "$@"
+    cosign:latest "$@"

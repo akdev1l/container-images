@@ -6,9 +6,10 @@ fi
 
 exec podman run --rm -it \
     --security-opt label=disable \
+    --pid=host \
     -v "$HOME/.cache/dnf:/var/cache/dnf" \
     -v /etc/yum.repos.d:/etc/yum.repos.d:ro \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    --entrypoint dnf \
-    fedora:latest "$@"
+    --entrypoint dnf5 \
+    "fedora-minimal:$(rpm -E %fedora)" "$@"

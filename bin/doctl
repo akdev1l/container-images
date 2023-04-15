@@ -1,8 +1,12 @@
 #!/bin/bash
 
+if ! [ -d "$HOME/.aws" ]; then
+    mkdir -v "$HOME/.aws"
+fi
+
 exec podman run --rm -it \
     --security-opt label=disable \
     --pid=host \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    ghcr.io/akdev1l/container-images/pandoc:latest "$@"
+    alpine/doctl:latest "$@"

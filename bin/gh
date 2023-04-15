@@ -3,6 +3,8 @@
 exec podman run --rm -it \
     --security-opt label=disable \
     -e GH_TOKEN \
+    -e SSH_AUTH_SOCK \
+    -v "${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}" \
     -v "$HOME:/root" \
     -v "$PWD:$PWD" \
     -w "$PWD" \

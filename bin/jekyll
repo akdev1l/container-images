@@ -2,7 +2,8 @@
 
 exec podman run --rm -it \
     --security-opt label=disable \
-    -p 4000:4000 \
+    --pid=host \
+    --net=host \
     -v "$PWD:$PWD" \
     -w "$PWD" \
     ghcr.io/akdev1l/container-images/jekyll:latest "$@"
