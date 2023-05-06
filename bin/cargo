@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exec podman run --rm -it \
+    --security-opt label=disable \
+    --pid=host \
+    --net=host \
+    -v "$PWD:$PWD" \
+    -w "$PWD" \
+    --entrypoint cargo \
+    rust:latest-slim "$@"

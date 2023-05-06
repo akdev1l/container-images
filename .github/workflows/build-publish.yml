@@ -82,6 +82,7 @@ jobs:
         image:
           - awscdk
           - dotfiles
+          - flarectl
           - ghcli
           - iotop
           - jekyll
