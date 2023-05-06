@@ -8,5 +8,4 @@ exec podman run --rm -it \
     -e CF_API_TOKEN \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    --entrypoint cargo \
     ghcr.io/akdev1l/container-images/flarectl:latest "$@"
