@@ -6,6 +6,7 @@ exec podman run --rm -it \
     --net=host \
     -e CF_API_KEY \
     -e CF_API_TOKEN \
+    -e CF_API_EMAIL \
     -v "$PWD:$PWD" \
     -w "$PWD" \
     ghcr.io/akdev1l/container-images/flarectl:latest "$@"

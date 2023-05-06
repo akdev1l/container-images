@@ -6,7 +6,7 @@ RUN dnf5 install -y tar xz && \
     curl -L "${FLARECTL_RELEASE}" --output /tmp/flarectl.tar.xz && \
     tar xvf /tmp/flarectl.tar.xz
 
-FROM scratch
+FROM fedora-minimal:38
 
 COPY --from=0 /flarectl /flarectl
 
