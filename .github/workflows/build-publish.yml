@@ -82,12 +82,19 @@ jobs:
       matrix:
         image:
           - awscdk
+          - awscli
+          - base
           - cosign
           - devenv
+          - doctl
           - flarectl
           - ghcli
           - iotop
+          - jekyll
+          - pandoc
           - qbittorrent
+          - rclone
+          - shellcheck
     permissions:
       contents: read
       packages: write

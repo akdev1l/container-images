@@ -1,0 +1,7 @@
+FROM ghcr.io/akdev1l/container-images/base:latest
+
+RUN dnf install -y \
+    rclone \
+    ;
+
+ENTRYPOINT "/usr/bin/rclone"
