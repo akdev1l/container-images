@@ -83,7 +83,6 @@ jobs:
         image:
           - awscdk
           - awscli
-          - base
           - cosign
           - devenv
           - doctl

@@ -17,13 +17,6 @@ RUN dnf install -y \
     skopeo \
     ansible \
     openssh-clients \
-    make \
-    'gcc-c++' \
-    'gcc' \
-    clang \
-    cmake \
-    java-latest-openjdk \
-    nodejs \
     ;
 
 RUN dnf swap -y \
