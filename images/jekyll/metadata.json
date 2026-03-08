@@ -1,0 +1,7 @@
+{
+    "registries": [
+        "ghcr.io/akdev1l/container-images"
+    ],
+    "tag": "jekyll",
+    "autopublish": true
+}
