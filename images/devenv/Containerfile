@@ -33,9 +33,7 @@ RUN dnf swap -y \
 
 RUN install -m 440 \
     /dev/stdin \
-    /etc/sudoers.d/wheel-nopasswd <<EOF
-%wheel ALL=(ALL) NOPASSWD: ALL
-EOF
+    /etc/sudoers.d/wheel-nopasswd <<<'%wheel ALL=(ALL) NOPASSWD: ALL'
 
 COPY files/vim/vimrc /etc/vimrc.local
 COPY util/ /tmp/util
