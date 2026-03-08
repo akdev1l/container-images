@@ -1,12 +1,9 @@
 #!/bin/bash
 
-if ! [ -d "$HOME/.aws" ]; then
-    mkdir -v "$HOME/.aws"
-fi
-
 exec podman run --rm -it \
     --security-opt label=disable \
     --pid=host \
+    -e DIGITALOCEAN_ACCESS_TOKEN \
     -v "$PWD:$PWD" \
     -w "$PWD" \
-    alpine/doctl:latest "$@"
+    ghcr.io/akdev1l/container-images/doctl:latest "$@"

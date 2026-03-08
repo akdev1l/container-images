@@ -1,0 +1,5 @@
+FROM ghcr.io/akdev1l/container-images/base:latest
+
+RUN dnf install -y doctl
+
+ENTRYPOINT ["/usr/bin/doctl"]
