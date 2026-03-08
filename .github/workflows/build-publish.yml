@@ -82,7 +82,6 @@ jobs:
       matrix:
         image:
           - awscdk
-          - dotfiles
           - flarectl
           - ghcli
           - iotop
@@ -102,51 +101,13 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io/${{ github.repository }}
 
-    - name: generate tags
-      id: generate-tags
+    - name: build image
+      id: build_image
       shell: bash
       run: |
-        SHA_SHORT="$(git rev-parse --short HEAD)"
-        DATE_TAG="$(date "+%Y%m%d")"
-        echo "alias_tags=latest ${SHA_SHORT} ${COMMIT_TAG} ${DATE_TAG}" >> $GITHUB_OUTPUT
+        ./imgctl build images/${{ matrix.image }}
 
-    # Build metadata
-    - name: Image Metadata
-      uses: docker/metadata-action@v4
-      id: meta
-      with:
-        images: ${{ matrix.image }}
-        labels: |
-          org.opencontainers.image.title=${{ matrix.image }}
-          org.opencontainers.image.version=${{ steps.generate-tags.outputs.SHA_SHORT }}
-          org.opencontainers.image.description=CLI Tool Packaged via OCI
-          io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
-
-    # Build image using Buildah action
-    - name: Build Image
-      id: build_image
-      uses: redhat-actions/buildah-build@v2
-      with:
-        containerfiles: |
-          ./images/${{ matrix.image }}/Containerfile
-        context: images/${{ matrix.image }}
-        image: ${{ matrix.image }}
-        tags: |
-          ${{ steps.generate-tags.outputs.alias_tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        oci: true
-
-    # Push the image to GHCR (Image Registry)
-    - name: Push To GHCR
-      uses: redhat-actions/push-to-registry@v2
-      id: push
-      if: github.event_name != 'pull_request'
-      env:
-        REGISTRY_USER: ${{ github.actor }}
-        REGISTRY_PASSWORD: ${{ github.token }}
-      with:
-        image: ${{ steps.build_image.outputs.image }}
-        tags: ${{ steps.build_image.outputs.tags }}
-        registry: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
-        username: ${{ env.REGISTRY_USER }}
-        password: ${{ env.REGISTRY_PASSWORD }}
+    - name: push to registry
+      shell: bash
+      run: ./imgctl publish images/${{ matrix.image }}
+        
