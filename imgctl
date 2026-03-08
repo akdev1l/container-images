@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+import argparse
+import json
+import sys
+
+from datetime import datetime
+from pathlib import Path
+from subprocess import run
+
+def main():
+  parser = argparse.ArgumentParser(prog="imgctl")
+  subparsers = parser.add_subparsers(required=True)
+
+  build = subparsers.add_parser("build")
+  build.add_argument("image")
+  build.set_defaults(func=build_image)
+
+  publish = subparsers.add_parser("publish")
+  publish.add_argument("image")
+  publish.set_defaults(func=publish_image)
+
+  args = parser.parse_args()
+  args.func(args)
+
+def build_image(args):
+  root = Path("images")
+
+  img_metadata = [
+      {
+        "path": str(d),
+        "metadata": json.loads((d / "metadata.json").read_text()) if (d / "metadata.json").exists() else None
+      }
+      for d in root.iterdir()
+      if str(d) == args.image or args.image == "all"
+  ]
+
+  img_to_build = [
+    img
+    for img in img_metadata
+    if img["metadata"] and img["metadata"].get("autopublish", False)
+  ]
+
+  for img in img_to_build:
+    podman_build_cmd = [
+        "podman", "build",
+        "--pull=always",
+        "-t", f"{img["metadata"]["tag"]}:latest",
+        img["path"],
+    ]
+
+    print(podman_build_cmd)
+    podman_build_proc = run(podman_build_cmd, check=True)
+
+def publish_image(args):
+  root = Path("images")
+
+  img_metadata = [
+      {
+        "path": str(d),
+        "metadata": json.loads((d / "metadata.json").read_text()) if (d / "metadata.json").exists() else None
+      }
+      for d in root.iterdir()
+      if str(d) == args.image or args.image == "all"
+  ]
+
+  img_to_build = [
+    img
+    for img in img_metadata
+    if img["metadata"] and img["metadata"].get("autopublish", False)
+  ]
+
+  for img in img_to_build:
+    for registry in img["metadata"]["registries"]:
+        tag = img["metadata"]["tag"]
+        podman_push_cmd = [
+            "podman", "push",
+            tag,
+            f"{registry}/{tag}:latest",
+        ]
+        podman_push_proc = run(podman_push_cmd, check=True)
+
+        podman_tag_cmd = [
+            "podman", "tag", tag, f"{registry}/{tag}:{datetime.now().strftime("%Y-%m-%d")}"
+        ]
+        podman_tag_proc = run(podman_tag_cmd, check=True)
+
+
+if __name__ == "__main__":
+    main()

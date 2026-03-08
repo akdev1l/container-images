@@ -1,12 +1,49 @@
-FROM fedora:36
+FROM ghcr.io/akdev1l/container-images/base:latest
 
-COPY ./util/dev-env.sh /tmp/dev-env.sh
-RUN /tmp/dev-env.sh 
+RUN sed -i \
+    -e '/\[main]/a\\keepcache=True' \
+    -e '/\[main]/a\\install_weak_deps=False' \
+    -e '/nodocs/d' /etc/dnf/dnf.conf
 
-COPY ./util/install-oh-my-zsh.sh /tmp/install-oh-my-zsh.sh
-RUN /tmp/install-oh-my-zsh.sh
+RUN dnf install -y \
+    zsh \
+    vim-enhanced \
+    git \
+    ripgrep \
+    file \
+    /usr/bin/ps \
+    podman \
+    buildah \
+    skopeo \
+    ansible \
+    openssh-clients \
+    make \
+    'gcc-c++' \
+    'gcc' \
+    clang \
+    cmake \
+    java-latest-openjdk \
+    nodejs \
+    ;
 
-COPY ./files/vim/vimrc /root/.vimrc
-COPY ./files/tmux/tmux.conf /root/.tmux.conf
-COPY ./files/zsh/zshrc /root/.zshrc
-COPY ./files/git/gitconfig /root/.gitconfig
+RUN dnf swap -y \
+    fedora-release-identity-container \
+    fedora-release-identity-server \
+    ;
+
+RUN install -m 440 \
+    /dev/stdin \
+    /etc/sudoers.d/wheel-nopasswd <<EOF
+%wheel ALL=(ALL) NOPASSWD: ALL
+EOF
+
+COPY files/vim/vimrc /etc/vimrc.local
+COPY util/ /tmp/util
+
+RUN env \
+    ZSH=/etc/oh-my-zsh \
+    CHSH=no \
+    RUNZSH=no \
+    /tmp/util/install-oh-my-zsh.sh
+
+RUN rm -rf /tmp/* /var/cache/* /var/log/*

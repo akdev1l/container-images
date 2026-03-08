@@ -89,7 +89,6 @@ jobs:
           - jekyll
           - pandoc
           - ripgrep
-          - watch_gha_runs
     permissions:
       contents: read
       packages: write
