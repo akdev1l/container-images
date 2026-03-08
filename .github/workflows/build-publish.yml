@@ -82,12 +82,12 @@ jobs:
       matrix:
         image:
           - awscdk
+          - cosign
+          - devenv
           - flarectl
           - ghcli
           - iotop
-          - jekyll
-          - pandoc
-          - ripgrep
+          - qbittorrent
     permissions:
       contents: read
       packages: write

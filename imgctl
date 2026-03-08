@@ -20,8 +20,35 @@ def main():
   publish.add_argument("image")
   publish.set_defaults(func=publish_image)
 
+  list_parser = subparsers.add_parser("list")
+  list_parser.set_defaults(func=list_image)
+
   args = parser.parse_args()
   args.func(args)
+
+def list_image(args):
+  root = Path("images")
+
+  img_metadata = [
+      {
+        "path": str(d),
+        "metadata": json.loads((d / "metadata.json").read_text()) if (d / "metadata.json").exists() else None
+      }
+      for d in root.iterdir()
+      if (d / "metadata.json").exists()
+  ]
+
+  img_output = [
+    f"{img["path"]:<20} | {img["metadata"]["tag"]:>20} | {img["metadata"].get("autopublish", False):>20}"
+    for img in img_metadata
+  ]
+
+  print(f"{"PATH":<20} | {"TAG":>20} | AUTOPUBLISH")
+  print(f"{"":=<20} | {"":=>20} | {"":=>20}")
+
+  for line in img_output:
+      print(line)
+
 
 def build_image(args):
   root = Path("images")
@@ -45,6 +72,7 @@ def build_image(args):
     podman_build_cmd = [
         "podman", "build",
         "--pull=always",
+        "--label", "io.containers.autoupdate=registry",
         "-t", f"{img["metadata"]["tag"]}:latest",
         img["path"],
     ]

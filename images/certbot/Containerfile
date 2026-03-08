@@ -1,3 +1,0 @@
-FROM ghcr.io/akdev1l/container-images/base:latest
-
-RUN dnf5 install -y certbot

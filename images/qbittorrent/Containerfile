@@ -1,4 +1,4 @@
-FROM akdev1l/base:latest
+FROM ghcr.io/akdev1l/container-images/base:latest
 
 RUN dnf install -y qbittorrent-nox 
 
