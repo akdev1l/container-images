@@ -8,3 +8,7 @@ RUN dnf install -y \
     openvswitch \
     ;
 
+# Install cosign public key and enforce signature verification for akdev1l images
+RUN mkdir -p /usr/etc/pki/containers
+COPY akdev.pub /usr/etc/pki/containers/akdev.pub
+COPY policy.json /usr/etc/containers/policy.json

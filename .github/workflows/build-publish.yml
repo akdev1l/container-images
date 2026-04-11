@@ -14,10 +14,10 @@ jobs:
       matrix:
         image:
           - base
+    environment: cosign-secrets
     permissions:
       contents: read
       packages: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -81,12 +81,16 @@ jobs:
 
     - name: Sign image
       if: github.event_name != 'pull_request'
+      env:
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       run: |
-        cosign sign --yes \
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY \
           ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ matrix.image }}@${{ steps.push.outputs.digest }}
 
   build-cli-tools:
     needs: build-base
+    environment: cosign-secrets
     strategy:
       matrix:
         image:
@@ -106,7 +110,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -131,8 +134,11 @@ jobs:
 
     - name: Sign image
       shell: bash
+      env:
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
       run: |
         REGISTRY=$(jq -r '.registries[0]' images/${{ matrix.image }}/metadata.json)
         TAG=$(jq -r '.tag' images/${{ matrix.image }}/metadata.json)
-        cosign sign --yes ${REGISTRY}/${TAG}:latest
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${REGISTRY}/${TAG}:latest
         
