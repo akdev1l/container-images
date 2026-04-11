@@ -17,9 +17,12 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@v1
       with:
@@ -76,6 +79,12 @@ jobs:
         username: ${{ env.REGISTRY_USER }}
         password: ${{ env.REGISTRY_PASSWORD }}
 
+    - name: Sign image
+      if: github.event_name != 'pull_request'
+      run: |
+        cosign sign --yes \
+          ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/${{ matrix.image }}@${{ steps.push.outputs.digest }}
+
   build-cli-tools:
     needs: build-base
     strategy:
@@ -85,6 +94,7 @@ jobs:
           - awscli
           - cosign
           - devenv
+          - desktop
           - doctl
           - flarectl
           - ghcli
@@ -96,9 +106,12 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@v1
       with:
@@ -115,4 +128,11 @@ jobs:
     - name: push to registry
       shell: bash
       run: ./imgctl publish images/${{ matrix.image }}
+
+    - name: Sign image
+      shell: bash
+      run: |
+        REGISTRY=$(jq -r '.registries[0]' images/${{ matrix.image }}/metadata.json)
+        TAG=$(jq -r '.tag' images/${{ matrix.image }}/metadata.json)
+        cosign sign --yes ${REGISTRY}/${TAG}:latest
         

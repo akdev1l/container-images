@@ -1,0 +1,10 @@
+FROM ghcr.io/ublue-os/kinoite-nvidia:latest
+
+RUN dnf install -y \
+    rclone \
+    virt-manager \
+    zsh \
+    NetworkManager-ovs \
+    openvswitch \
+    ;
+
