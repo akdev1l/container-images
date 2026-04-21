@@ -1,0 +1,3 @@
+docker:
+  ghcr.io/akdev1l/container-images:
+    use-sigstore-attachments: true
