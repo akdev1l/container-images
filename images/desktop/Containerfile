@@ -1,6 +1,6 @@
 FROM ghcr.io/akdev1l/kinoite-nvidia:44
 
-RUN dnf install -y \
+RUN dnf upgrade -y && dnf install -y \
     rclone \
     virt-manager \
     zsh \
