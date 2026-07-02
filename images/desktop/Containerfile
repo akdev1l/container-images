@@ -1,12 +1,13 @@
 FROM ghcr.io/akdev1l/kinoite-nvidia:44
 
-RUN dnf upgrade -y && dnf install -y \
+RUN dnf install -y \
     rclone \
     virt-manager \
     zsh \
     NetworkManager-ovs \
     openvswitch \
     openrgb-udev-rules \
+    ripgrep \
     ;
 
 # Install cosign public key and enforce signature verification for akdev1l images
