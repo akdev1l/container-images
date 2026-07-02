@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/akdev1l/container-images/compare/v1.1.0...v1.2.0) (2026-07-02)
+
+
+### Features
+
+* add desktop containerfile and signatures ([7217fed](https://github.com/akdev1l/container-images/commit/7217fed99f071883ad293b3165380da2fe6a3dbd))
+
+
+### Bug Fixes
+
+* remove dnf upgrade ([326cc98](https://github.com/akdev1l/container-images/commit/326cc98f90ad81865a28d011f08c494a1a53f6e2))
+
 ## [1.1.0](https://github.com/akdev1l/container-images/compare/v1.0.0...v1.1.0) (2026-03-08)
 
 
